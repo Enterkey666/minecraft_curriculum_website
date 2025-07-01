@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コマンドリスト完全版 | マインクラフトプログラミング教室</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Noto Sans JP', sans-serif; background: #f0f9ff; }
+        .command-card { background: #fff; border-radius: 18px; box-shadow: 0 8px 32px 0 rgba(34,197,94,0.10); padding: 2.5rem 2rem; max-width: 900px; margin: 3rem auto; }
+        h1 { background: linear-gradient(90deg, #22c55e 0%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-align: center; font-size: 2.2rem; font-weight: bold; margin-bottom: 2rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 2rem; }
+        th, td { border: 1px solid #e5e7eb; padding: 0.7rem; text-align: left; }
+        th { background: #e0f2fe; color: #2563eb; }
+        td { background: #fff; color: #374151; }
+        .download-btn { display: block; margin: 1.5rem auto 0 auto; background: linear-gradient(90deg, #22c55e 0%, #3b82f6 100%); color: #fff; font-weight: bold; border: none; border-radius: 12px; padding: 0.8rem 2rem; font-size: 1.1rem; cursor: pointer; box-shadow: 0 4px 16px 0 rgba(34,197,94,0.10); transition: background 0.3s; }
+        .download-btn:hover { background: linear-gradient(90deg, #3b82f6 0%, #22c55e 100%); }
+        .back-link { display: block; margin: 2rem auto 0 auto; text-align: center; color: #22c55e; font-weight: bold; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="command-card">
+        <h1>コマンドリスト完全版</h1>
+        <p class="mb-4 text-gray-700">よく使うマインクラフトコマンド30選。下のボタンからCSV形式でダウンロードできます。</p>
+        <table id="commandTable">
+            <thead>
+                <tr>
+                    <th>コマンド</th>
+                    <th>説明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>/tp</td><td>プレイヤーやエンティティをテレポート</td></tr>
+                <tr><td>/give</td><td>アイテムを入手</td></tr>
+                <tr><td>/setblock</td><td>指定位置にブロックを設置</td></tr>
+                <tr><td>/fill</td><td>範囲を指定してブロックを設置</td></tr>
+                <tr><td>/summon</td><td>モブやエンティティを召喚</td></tr>
+                <tr><td>/effect</td><td>効果（ポーション等）を付与</td></tr>
+                <tr><td>/time set</td><td>時間を変更</td></tr>
+                <tr><td>/weather</td><td>天候を変更</td></tr>
+                <tr><td>/gamemode</td><td>ゲームモードを変更</td></tr>
+                <tr><td>/xp</td><td>経験値を与える</td></tr>
+                <tr><td>/clear</td><td>インベントリを空にする</td></tr>
+                <tr><td>/kill</td><td>エンティティを消す</td></tr>
+                <tr><td>/clone</td><td>範囲をコピー</td></tr>
+                <tr><td>/replaceitem</td><td>アイテムを装備スロットにセット</td></tr>
+                <tr><td>/title</td><td>画面にタイトルを表示</td></tr>
+                <tr><td>/playsound</td><td>音を再生</td></tr>
+                <tr><td>/scoreboard</td><td>スコアボード管理</td></tr>
+                <tr><td>/spreadplayers</td><td>プレイヤーを分散配置</td></tr>
+                <tr><td>/team</td><td>チーム管理</td></tr>
+                <tr><td>/testfor</td><td>条件判定</td></tr>
+                <tr><td>/trigger</td><td>トリガーを実行</td></tr>
+                <tr><td>/worldborder</td><td>ワールドの境界を設定</td></tr>
+                <tr><td>/data</td><td>データ操作</td></tr>
+                <tr><td>/function</td><td>関数（Function）を実行</td></tr>
+                <tr><td>/locate</td><td>構造物の場所を検索</td></tr>
+                <tr><td>/msg</td><td>個人チャット</td></tr>
+                <tr><td>/say</td><td>全体チャット</td></tr>
+                <tr><td>/setworldspawn</td><td>ワールドの初期スポーン地点を設定</td></tr>
+                <tr><td>/spawnpoint</td><td>プレイヤーのリスポーン地点を設定</td></tr>
+                <tr><td>/tp @a @s</td><td>全員を自分の場所にテレポート</td></tr>
+            </tbody>
+        </table>
+        <button class="download-btn" onclick="downloadCSV()">CSVでダウンロード</button>
+        <a href="index.html" class="back-link">← トップページに戻る</a>
+    </div>
+    <script>
+    function downloadCSV() {
+        let csv = 'コマンド,説明\n';
+        const rows = document.querySelectorAll('#commandTable tbody tr');
+        rows.forEach(row => {
+            const cols = row.querySelectorAll('td');
+            csv += `${cols[0].innerText},${cols[1].innerText}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'minecraft_commands.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+    </script>
+</body>
+</html> 

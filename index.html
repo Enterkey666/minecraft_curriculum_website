@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>マインクラフトプログラミング教室 - カリキュラム</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #10b981;
+            --primary-dark: #059669;
+            --secondary-color: #3b82f6;
+            --accent-color: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .minecraft-bg {
+            background: var(--bg-gradient);
+            position: relative;
+        }
+        
+        .minecraft-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .phase-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: var(--card-shadow);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .phase-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .phase-card:hover::before {
+            left: 100%;
+        }
+        
+        .phase-1 { border-left: 6px solid #ef4444; }
+        .phase-2 { border-left: 6px solid #f59e0b; }
+        .phase-3 { border-left: 6px solid #3b82f6; }
+        .phase-4 { border-left: 6px solid #8b5cf6; }
+        
+        .hero-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(2deg); }
+        }
+        
+        /* 新しいアニメーション */
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slide-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slide-in-right {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes bounce-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+            70% {
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        @keyframes rotate-3d {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .animate-slide-in-left {
+            animation: slide-in-left 0.8s ease-out;
+        }
+        
+        .animate-slide-in-right {
+            animation: slide-in-right 0.8s ease-out;
+        }
+        
+        .animate-bounce-in {
+            animation: bounce-in 0.8s ease-out;
+        }
+        
+        .animate-shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        .animate-rotate-3d {
+            animation: rotate-3d 8s linear infinite;
+        }
+        
+        .animate-wave {
+            animation: wave 2s ease-in-out infinite;
+        }
+        
+        .animate-wave-delay-1 { animation-delay: 0.1s; }
+        .animate-wave-delay-2 { animation-delay: 0.2s; }
+        .animate-wave-delay-3 { animation-delay: 0.3s; }
+        .animate-wave-delay-4 { animation-delay: 0.4s; }
+        
+        .command-box {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: #10b981;
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px 0;
+            border-left: 4px solid #10b981;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .command-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .command-box:hover {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            border-left: 4px solid #ffffff;
+            cursor: pointer;
+            transform: translateX(8px);
+        }
+        
+        .command-box:hover::before {
+            left: 100%;
+        }
+        
+        .lesson-item {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .lesson-item:hover {
+            background-color: #f0fdf4;
+            transform: translateX(8px);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #ef4444 25%, #f59e0b 50%, #3b82f6 75%, #8b5cf6 100%);
+            height: 8px;
+            border-radius: 4px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ef4444 25%, #f59e0b 50%, #3b82f6 75%, #8b5cf6 100%);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+        }
+        
+        .section-fade, .bg-white, .bg-gray-50 {
+            border-radius: 18px;
+            box-shadow: 0 4px 24px 0 rgba(34,197,94,0.07);
+        }
+        
+        .section-fade {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .section-fade.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        h2, h3 {
+            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 8px rgba(34,197,94,0.10);
+        }
+        
+        .max-w-7xl, .max-w-4xl {
+            padding-left: 2rem !important;
+            padding-right: 2rem !important;
+        }
+        section, .py-16 {
+            padding-top: 5rem !important;
+            padding-bottom: 5rem !important;
+        }
+        section {
+            margin-bottom: 4rem !important;
+        }
+        
+        /* レスポンシブ対応の強化 */
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+            .lg\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .md\\:grid-cols-3 {
+                grid-template-columns: 1fr !important;
+            }
+            .md\\:grid-cols-2 {
+                grid-template-columns: 1fr !important;
+            }
+            .text-4xl {
+                font-size: 2rem !important;
+            }
+            .text-6xl {
+                font-size: 3rem !important;
+            }
+            .text-3xl {
+                font-size: 1.75rem !important;
+            }
+            .px-4 {
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+            .py-16 {
+                padding-top: 3rem !important;
+                padding-bottom: 3rem !important;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .text-4xl {
+                font-size: 1.75rem !important;
+            }
+            .text-6xl {
+                font-size: 2.5rem !important;
+            }
+            .text-xl {
+                font-size: 1.125rem !important;
+            }
+            .px-8 {
+                padding-left: 1.5rem !important;
+                padding-right: 1.5rem !important;
+            }
+        }
+        
+        /* プロダクトローンチ向けの動的要素 */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            z-index: -1;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .floating-element {
+            position: absolute;
+            opacity: 0.8;
+            animation: float 6s ease-in-out infinite;
+            z-index: 10;
+        }
+        
+        .floating-element:nth-child(1) { top: 15%; left: 15%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 25%; left: 85%; animation-delay: 1s; }
+        .floating-element:nth-child(3) { top: 45%; left: 10%; animation-delay: 2s; }
+        .floating-element:nth-child(4) { top: 65%; left: 80%; animation-delay: 3s; }
+        .floating-element:nth-child(5) { top: 75%; left: 20%; animation-delay: 4s; }
+        .floating-element:nth-child(6) { top: 85%; left: 70%; animation-delay: 5s; }
+        .floating-element:nth-child(7) { top: 35%; left: 60%; animation-delay: 1.5s; }
+        .floating-element:nth-child(8) { top: 55%; left: 40%; animation-delay: 2.5s; }
+        
+        .cta-button {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .cta-button:hover::before {
+            left: 100%;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .phase-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+        
+        .phase-card:hover::before {
+            left: 100%;
+        }
+        
+        .progress-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f093fb, #f5576c);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+            transition: transform 0.3s;
+        }
+        
+        .scroll-trigger {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s;
+        }
+        
+        .scroll-trigger.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .urgency-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .urgency-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: urgencyShine 2s infinite;
+        }
+        
+        @keyframes urgencyShine {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .social-proof {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- スクロールインジケーター -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <!-- 緊急性バナー -->
+    <div class="urgency-banner">
+        <strong>🚀 新規オープン記念キャンペーン！</strong> 初回限定：入会金無料 + 体験レッスン2回無料 + 教材費半額！
+    </div>
+    
+    <!-- ナビゲーション -->
+    <nav class="bg-white/99 backdrop-blur-xl shadow-2xl fixed w-full top-0 z-50 border-b-2 border-emerald-300/70">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20">
+                <div class="flex items-center">
+                    <div class="relative animate-pulse-glow">
+                        <i class="fas fa-cube text-emerald-600 text-3xl mr-3 animate-rotate-3d"></i>
+                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full animate-ping"></div>
+                        <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                    </div>
+                    <span class="text-xl font-bold text-gray-800 animate-shimmer">マインクラフトプログラミング教室</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#overview" class="text-gray-800 font-semibold hover:text-emerald-600 transition-all duration-300 relative group">
+                        概要
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#phases" class="text-gray-800 font-semibold hover:text-emerald-600 transition-all duration-300 relative group">
+                        カリキュラム
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#commands" class="text-gray-800 font-semibold hover:text-emerald-600 transition-all duration-300 relative group">
+                        コマンド
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#support" class="text-gray-800 font-semibold hover:text-emerald-600 transition-all duration-300 relative group">
+                        サポート
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-600 transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="contact.html" class="bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-6 py-3 rounded-xl shadow-lg hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+                        <i class="fas fa-envelope mr-2"></i>お問い合わせ
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" class="text-gray-600 hover:text-green-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- モバイルメニュー -->
+        <div id="mobileMenu" class="md:hidden hidden bg-white border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#overview" class="block px-3 py-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors">概要</a>
+                <a href="#phases" class="block px-3 py-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors">カリキュラム</a>
+                <a href="#commands" class="block px-3 py-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors">コマンド</a>
+                <a href="#support" class="block px-3 py-2 text-gray-600 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors">サポート</a>
+                <a href="contact.html" class="block px-3 py-2 bg-gradient-to-r from-green-400 via-green-500 to-green-600 text-white rounded-lg mt-2 text-center shadow-lg">
+                    <i class="fas fa-envelope mr-2"></i>お問い合わせ
+                </a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- ヒーローセクション -->
+    <section class="minecraft-bg pt-24 pb-20 text-white hero-section relative overflow-hidden">
+        <div class="hero-bg-animation"></div>
+        <div class="floating-elements">
+            <div class="floating-element text-4xl animate-wave animate-wave-delay-1">⚡</div>
+            <div class="floating-element text-4xl animate-wave animate-wave-delay-2">💎</div>
+            <div class="floating-element text-4xl animate-wave animate-wave-delay-3">🚀</div>
+            <div class="floating-element text-3xl animate-wave animate-wave-delay-4">🎮</div>
+            <div class="floating-element text-3xl animate-wave">🔧</div>
+            <div class="floating-element text-2xl animate-wave animate-wave-delay-1">⚙️</div>
+            <div class="floating-element text-2xl animate-wave animate-wave-delay-2">🎯</div>
+            <div class="floating-element text-2xl animate-wave animate-wave-delay-3">🌟</div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="section-fade">
+                    <div class="mb-6 animate-bounce-in">
+                        <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium mb-4 animate-pulse-glow">
+                            🎯 小学生から中学生向け
+                        </span>
+                    </div>
+                    <h1 class="text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                        <span class="animate-slide-in-left inline-block">マインクラフトで</span><br>
+                        <span class="text-yellow-400 animate-pulse animate-shimmer inline-block">プログラミング</span><br>
+                        <span class="animate-slide-in-right inline-block">を学ぼう！</span>
+                    </h1>
+                    <p class="text-xl mb-10 text-white/90 leading-relaxed">
+                        子どもたちが大好きなマインクラフトを使って、<br>
+                        <strong>コマンドからPythonまで</strong>、段階的にプログラミングを学べます。<br>
+                        <span class="bg-yellow-400/20 px-2 py-1 rounded">新規オープン記念で特別価格でご提供！</span>
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-6">
+                        <a href="trial.html" class="group bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 text-gray-900 px-10 py-5 rounded-2xl font-bold text-lg shadow-2xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 hover:shadow-3xl block text-center relative overflow-hidden animate-pulse-glow">
+                            <span class="relative z-10 flex items-center justify-center">
+                                <i class="fas fa-rocket mr-3 text-xl group-hover:animate-bounce animate-wave"></i>
+                                無料体験レッスン
+                            </span>
+                            <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                        </a>
+                        <a href="details.html" class="group border-2 border-white/50 text-white px-10 py-5 rounded-2xl font-bold text-lg backdrop-blur-sm hover:bg-white/10 hover:border-white transition-all duration-300 transform hover:scale-105 block text-center animate-bounce-in">
+                            <i class="fas fa-info-circle mr-3 animate-wave"></i>
+                            詳細を見る
+                        </a>
+                    </div>
+                    <div class="mt-8 flex items-center space-x-6 text-white/80">
+                        <div class="flex items-center animate-bounce-in" style="animation-delay: 0.1s;">
+                            <i class="fas fa-rocket text-2xl mr-2 animate-wave"></i>
+                            <span class="font-semibold text-2xl">新規</span> オープン
+                        </div>
+                        <div class="flex items-center animate-bounce-in" style="animation-delay: 0.2s;">
+                            <i class="fas fa-gift text-2xl mr-2 animate-wave"></i>
+                            <span class="font-semibold text-2xl">限定</span> 特典
+                        </div>
+                        <div class="flex items-center animate-bounce-in" style="animation-delay: 0.3s;">
+                            <i class="fas fa-calendar-alt text-2xl mr-2 animate-wave"></i>
+                            <span class="font-semibold text-2xl">早期</span> 申込
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-animation relative">
+                    <div class="relative animate-bounce-in">
+                        <img src="images/minecraft_education.png" alt="Minecraft Education" class="w-full rounded-2xl shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 animate-pulse-glow">
+                        <div class="absolute -top-4 -right-4 bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-wave">
+                            🎮 楽しく学習
+                        </div>
+                        <div class="absolute -bottom-4 -left-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg animate-wave" style="animation-delay: 0.5s;">
+                            💻 実践的スキル
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-yellow-400/20 rounded-full animate-ping"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 新規オープン特典セクション -->
+    <section class="py-16 bg-gradient-to-r from-yellow-50 to-orange-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23f59e0b" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <div class="inline-block bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 px-6 py-2 rounded-full text-sm font-semibold mb-6 animate-pulse-glow">
+                    🎁 新規オープン記念特典
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    新規オープン記念<br>
+                    <span class="bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">特別キャンペーン</span>
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    教室オープンを記念して、特別な特典をご用意しました！<br>
+                    この機会をお見逃しなく！
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-left">
+                    <div class="bg-gradient-to-br from-green-100 to-green-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-gift text-green-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">入会金無料</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        通常10,000円の入会金が<br>
+                        <span class="text-2xl font-bold text-green-600">完全無料</span><br>
+                        新規オープン記念限定
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-bounce-in">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-play-circle text-blue-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">体験レッスン2回無料</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        通常1回の体験レッスンが<br>
+                        <span class="text-2xl font-bold text-blue-600">2回無料</span><br>
+                        じっくり体験できます
+                    </p>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg text-center group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-right">
+                    <div class="bg-gradient-to-br from-purple-100 to-purple-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-book text-purple-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">教材費半額</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        通常5,000円の教材費が<br>
+                        <span class="text-2xl font-bold text-purple-600">2,500円</span><br>
+                        大幅割引でご提供
+                    </p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <div class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 py-4 rounded-2xl inline-block animate-pulse-glow">
+                    <p class="text-lg font-bold">🎯 総額17,500円相当の特典！</p>
+                    <p class="text-sm opacity-90">新規オープン記念限定キャンペーン</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 概要セクション -->
+    <section id="overview" class="py-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 section-fade">
+                <div class="inline-block bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-800 px-6 py-2 rounded-full text-sm font-semibold mb-6">
+                    🎯 学習の特徴
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    なぜマインクラフトで<br>
+                    <span class="text-emerald-600">プログラミング</span>？
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    子どもたちが大好きなマインクラフトを使って、楽しみながらプログラミングの基礎から応用まで学べます。<br>
+                    ゲーム感覚で自然にスキルが身につく、革新的な学習方法です。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group text-center p-8 section-fade bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-left">
+                    <div class="bg-gradient-to-br from-red-100 to-red-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-heart text-red-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">楽しく学習</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        ゲームを通して自然にプログラミングの概念を理解できます。<br>
+                        楽しみながら学ぶことで、継続的な学習意欲を維持できます。
+                    </p>
+                </div>
+                
+                <div class="group text-center p-8 section-fade bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-bounce-in">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-stairs text-blue-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">段階的学習</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        コマンドからPythonまで、無理なく段階的にスキルアップできます。<br>
+                        各段階で達成感を味わいながら、着実に成長できます。
+                    </p>
+                </div>
+                
+                <div class="group text-center p-8 section-fade bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-right">
+                    <div class="bg-gradient-to-br from-emerald-100 to-emerald-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-rocket text-emerald-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">実践的スキル</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        最終的には本格的なアプリケーション開発まで学べます。<br>
+                        将来のIT業界で活躍できる実践的なスキルを身につけます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 早期申込特典セクション -->
+    <section class="py-16 bg-gradient-to-r from-red-50 to-pink-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ef4444" fill-opacity="0.1"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-12">
+                <div class="inline-block bg-gradient-to-r from-red-100 to-pink-100 text-red-800 px-6 py-2 rounded-full text-sm font-semibold mb-6 animate-pulse-glow">
+                    ⏰ 早期申込限定特典
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    早期申込で<br>
+                    <span class="bg-gradient-to-r from-red-500 to-pink-500 bg-clip-text text-transparent">さらに特典追加！</span>
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    最初の10名様限定で、さらに特別な特典をご用意！<br>
+                    お早めにお申し込みください。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-left">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-red-100 to-red-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fas fa-clock text-red-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">早期申込特典</h3>
+                            <p class="text-gray-600">最初の10名様限定</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-red-50 rounded-xl">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">1ヶ月分の授業料無料</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-red-50 rounded-xl">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">オリジナル教材セットプレゼント</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-red-50 rounded-xl">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">保護者向け相談会無料参加</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-2xl shadow-lg group hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 animate-slide-in-right">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-pink-100 to-pink-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fas fa-users text-pink-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">少人数制のメリット</h3>
+                            <p class="text-gray-600">定員制で確実にサポート</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 bg-pink-50 rounded-xl">
+                            <i class="fas fa-star text-pink-600 mr-3 text-lg"></i>
+                            <span class="font-medium">1クラス最大6名まで</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-pink-50 rounded-xl">
+                            <i class="fas fa-star text-pink-600 mr-3 text-lg"></i>
+                            <span class="font-medium">一人ひとりに合わせた指導</span>
+                        </div>
+                        <div class="flex items-center p-4 bg-pink-50 rounded-xl">
+                            <i class="fas fa-star text-pink-600 mr-3 text-lg"></i>
+                            <span class="font-medium">質問しやすい環境</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <div class="bg-gradient-to-r from-red-400 to-pink-500 text-white px-8 py-4 rounded-2xl inline-block animate-pulse-glow">
+                    <p class="text-lg font-bold">🔥 残り席数：10名様限定！</p>
+                    <p class="text-sm opacity-90">早期申込でさらに特典が追加されます</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- プログレスバー -->
+    <div class="bg-gradient-to-r from-gray-50 to-white py-12 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.03"%3E%3Cpath d="M20 20c0 11.046-8.954 20-20 20s-20-8.954-20-20 8.954-20 20-20 20 8.954 20 20zm0-20c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20-8.954-20-20-20z"/%3E%3C/g%3E%3C/svg%3E')]"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-10">
+                <div class="inline-block bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-800 px-6 py-2 rounded-full text-sm font-semibold mb-4">
+                    📚 学習ロードマップ
+                </div>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">1年間の学習ロードマップ</h3>
+                <p class="text-xl text-gray-600">4つのフェーズで段階的にスキルアップ</p>
+            </div>
+            <div class="relative">
+                <div class="progress-bar h-4 rounded-full shadow-inner bg-gray-200 overflow-hidden">
+                    <div class="h-full bg-gradient-to-r from-red-500 via-yellow-500 via-blue-500 to-purple-600 rounded-full relative animate-shimmer">
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse"></div>
+                        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
+                    </div>
+                </div>
+                <div class="flex justify-between mt-6 text-sm font-bold">
+                    <div class="text-center">
+                        <div class="w-4 h-4 bg-red-500 rounded-full mx-auto mb-2 shadow-lg"></div>
+                        <span class="text-red-600">フェーズ1</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-4 h-4 bg-yellow-500 rounded-full mx-auto mb-2 shadow-lg"></div>
+                        <span class="text-yellow-600">フェーズ2</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full mx-auto mb-2 shadow-lg"></div>
+                        <span class="text-blue-600">フェーズ3</span>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-4 h-4 bg-purple-500 rounded-full mx-auto mb-2 shadow-lg"></div>
+                        <span class="text-purple-600">フェーズ4</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- カリキュラムセクション -->
+    <section id="phases" class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 section-fade">
+                <div class="inline-block bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-800 px-6 py-2 rounded-full text-sm font-semibold mb-6">
+                    🎓 カリキュラム
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    4つのフェーズで学ぶ<br>
+                    <span class="text-emerald-600">カリキュラム</span>
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    各フェーズ3ヶ月、合計1年間で本格的なプログラミングスキルを習得<br>
+                    段階的にステップアップしながら、確実にスキルを身につけます
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- フェーズ1 -->
+                <div class="phase-card phase-1 p-8 rounded-2xl section-fade group">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-red-100 to-red-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fas fa-terminal text-red-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">フェーズ1: コマンドマスター</h3>
+                            <p class="text-gray-600 font-medium">期間: 3ヶ月</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed text-lg">
+                        マインクラフトのコマンドを使って、ゲームの世界を自由に操作する方法を学びます。<br>
+                        基本的なコマンドから始めて、複雑なシステムまで構築できるようになります。
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-red-400 bg-red-50 hover:bg-red-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">基本コマンドの習得</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-red-400 bg-red-50 hover:bg-red-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">コマンドブロックの活用</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-red-400 bg-red-50 hover:bg-red-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-red-600 mr-3 text-lg"></i>
+                            <span class="font-medium">自動化システムの構築</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <span class="bg-gradient-to-r from-red-100 to-red-200 text-red-800 px-4 py-2 rounded-full text-sm font-bold shadow-md border border-red-300">
+                            🎯 成果物: 自動ドア、コマンドミニゲーム
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- フェーズ2 -->
+                <div class="phase-card phase-2 p-8 rounded-2xl section-fade group">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-yellow-100 to-yellow-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fas fa-cubes text-yellow-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">フェーズ2: ブロックプログラミング</h3>
+                            <p class="text-gray-600 font-medium">期間: 3ヶ月</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed text-lg">
+                        MakeCodeを使ったブロック型プログラミングで、より複雑なシステムを構築します。<br>
+                        視覚的なプログラミングで、論理的思考力を育みます。
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-yellow-400 bg-yellow-50 hover:bg-yellow-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-yellow-600 mr-3 text-lg"></i>
+                            <span class="font-medium">エージェントプログラミング</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-yellow-400 bg-yellow-50 hover:bg-yellow-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-yellow-600 mr-3 text-lg"></i>
+                            <span class="font-medium">変数と関数の理解</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-yellow-400 bg-yellow-50 hover:bg-yellow-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-yellow-600 mr-3 text-lg"></i>
+                            <span class="font-medium">オリジナルゲーム開発</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <span class="bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 px-4 py-2 rounded-full text-sm font-bold shadow-md border border-yellow-300">
+                            🎯 成果物: 自動農場、オリジナルミニゲーム
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- フェーズ3 -->
+                <div class="phase-card phase-3 p-8 rounded-2xl section-fade group">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fab fa-python text-blue-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">フェーズ3: Python導入</h3>
+                            <p class="text-gray-600 font-medium">期間: 3ヶ月</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed text-lg">
+                        本格的なプログラミング言語Pythonを学び、マインクラフトと連携させます。<br>
+                        実用的なプログラミングスキルを身につけます。
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-blue-400 bg-blue-50 hover:bg-blue-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-blue-600 mr-3 text-lg"></i>
+                            <span class="font-medium">Python基礎文法</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-blue-400 bg-blue-50 hover:bg-blue-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-blue-600 mr-3 text-lg"></i>
+                            <span class="font-medium">マインクラフト連携</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-blue-400 bg-blue-50 hover:bg-blue-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-blue-600 mr-3 text-lg"></i>
+                            <span class="font-medium">自動化プログラム開発</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 px-4 py-2 rounded-full text-sm font-bold shadow-md border border-blue-300">
+                            🎯 成果物: 自動建築ロボット、データ分析ツール
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- フェーズ4 -->
+                <div class="phase-card phase-4 p-8 rounded-2xl section-fade group">
+                    <div class="flex items-center mb-6">
+                        <div class="bg-gradient-to-br from-purple-100 to-purple-200 w-16 h-16 rounded-2xl flex items-center justify-center mr-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                            <i class="fas fa-globe text-purple-600 text-2xl animate-wave"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-gray-800 mb-2">フェーズ4: アプリ開発</h3>
+                            <p class="text-gray-600 font-medium">期間: 3ヶ月</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-6 leading-relaxed text-lg">
+                        Pythonを使って、Webアプリやデスクトップアプリの開発に挑戦します。<br>
+                        実用的なアプリケーションを作成し、プログラマーとしての実力を証明します。
+                    </p>
+                    <div class="space-y-3 mb-6">
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-purple-400 bg-purple-50 hover:bg-purple-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-purple-600 mr-3 text-lg"></i>
+                            <span class="font-medium">Webアプリ開発</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-purple-400 bg-purple-50 hover:bg-purple-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-purple-600 mr-3 text-lg"></i>
+                            <span class="font-medium">GUIアプリ開発</span>
+                        </div>
+                        <div class="lesson-item p-4 rounded-xl border-l-4 border-purple-400 bg-purple-50 hover:bg-purple-100 transition-colors duration-300">
+                            <i class="fas fa-check-circle text-purple-600 mr-3 text-lg"></i>
+                            <span class="font-medium">オリジナル作品制作</span>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <span class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 px-4 py-2 rounded-full text-sm font-bold shadow-md border border-purple-300">
+                            🎯 成果物: Webダッシュボード、オリジナルアプリ
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- コマンドセクション -->
+    <section id="commands" class="py-20 bg-gradient-to-br from-white to-gray-50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 section-fade">
+                <div class="inline-block bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-800 px-6 py-2 rounded-full text-sm font-semibold mb-6">
+                    💻 コマンド例
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    マインクラフト<br>
+                    <span class="text-emerald-600">コマンド例</span>
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    実際に使えるコマンドを体験してみよう！<br>
+                    クリックするとコピーできます。
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-12">
+                <div class="section-fade">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                            <i class="fas fa-magic mr-3 text-emerald-600 text-2xl animate-wave"></i>基本コマンド
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// テレポート</div>
+                                <div class="font-mono text-lg">/tp @s 0 64 0</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// アイテムを出す</div>
+                                <div class="font-mono text-lg">/give @s diamond_sword 1</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// ブロックを設置</div>
+                                <div class="font-mono text-lg">/setblock ~ ~-1 ~ glass</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// 時間を変更</div>
+                                <div class="font-mono text-lg">/time set day</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-fade">
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                            <i class="fas fa-cogs mr-3 text-blue-600 text-2xl animate-wave"></i>応用コマンド
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// 範囲にブロック設置</div>
+                                <div class="font-mono text-lg">/fill ~-5 ~-1 ~-5 ~5 ~-1 ~5 glass</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// エフェクトを与える</div>
+                                <div class="font-mono text-lg">/effect give @s speed 30 2</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// エンティティを召喚</div>
+                                <div class="font-mono text-lg">/summon zombie ~ ~ ~</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                            <div class="command-box group">
+                                <div class="text-yellow-400 mb-2 font-medium">// 全員にアイテム</div>
+                                <div class="font-mono text-lg">/give @a diamond 10</div>
+                                <div class="text-xs text-gray-400 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">クリックでコピー</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="commandlist.html" class="group bg-gradient-to-r from-emerald-500 to-emerald-600 text-white px-10 py-4 rounded-2xl shadow-xl hover:from-emerald-600 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl inline-flex items-center text-lg font-bold animate-pulse-glow">
+                    <i class="fas fa-download mr-3 text-xl group-hover:animate-bounce animate-wave"></i>
+                    コマンドリスト完全版をダウンロード
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- サポートセクション -->
+    <section id="support" class="py-20 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 section-fade">
+                <div class="inline-block bg-gradient-to-r from-emerald-100 to-blue-100 text-emerald-800 px-6 py-2 rounded-full text-sm font-semibold mb-6">
+                    🛡️ サポート体制
+                </div>
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    充実の<br>
+                    <span class="text-emerald-600">サポート体制</span>
+                </h2>
+                <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+                    お子様の学習を全力でサポートします<br>
+                    安心してプログラミング学習に取り組める環境を提供します
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group bg-white p-8 rounded-2xl shadow-lg text-center section-fade hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="bg-gradient-to-br from-emerald-100 to-emerald-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-users text-emerald-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">少人数制指導</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        一人ひとりのペースに合わせたきめ細やかな指導を行います。<br>
+                        質問しやすい環境で、確実にスキルを身につけられます。
+                    </p>
+                </div>
+                
+                <div class="group bg-white p-8 rounded-2xl shadow-lg text-center section-fade hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="bg-gradient-to-br from-blue-100 to-blue-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-chart-line text-blue-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">学習レポート</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        月ごとの学習進捗や作品のスクリーンショットをご報告します。<br>
+                        お子様の成長を実感していただけます。
+                    </p>
+                </div>
+                
+                <div class="group bg-white p-8 rounded-2xl shadow-lg text-center section-fade hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2">
+                    <div class="bg-gradient-to-br from-purple-100 to-purple-200 w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-glow">
+                        <i class="fas fa-shield-alt text-purple-600 text-3xl animate-wave"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">安全な環境</h3>
+                    <p class="text-gray-600 leading-relaxed">
+                        インターネット利用やツール導入は安全に配慮して指導します。<br>
+                        保護者の方も安心して学習を見守っていただけます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 身につく力セクション -->
+    <section class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">身につく力</h2>
+                <p class="text-xl text-gray-700">本カリキュラムでお子様が身につけられる主な力</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-green-50 p-6 rounded-lg shadow text-center">
+                    <h3 class="text-xl font-semibold mb-2 text-green-700">論理的思考力</h3>
+                    <p class="text-gray-700">プログラムの流れや条件分岐を考えることで、筋道立てて考える力が育ちます。</p>
+                </div>
+                <div class="bg-blue-50 p-6 rounded-lg shadow text-center">
+                    <h3 class="text-xl font-semibold mb-2 text-blue-700">創造力・表現力</h3>
+                    <p class="text-gray-700">自分だけのワールドやゲームを作ることで、アイデアを形にする力が身につきます。</p>
+                </div>
+                <div class="bg-yellow-50 p-6 rounded-lg shadow text-center">
+                    <h3 class="text-xl font-semibold mb-2 text-yellow-700">問題解決力</h3>
+                    <p class="text-gray-700">エラーや課題に直面したとき、自分で調べて解決する力が養われます。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- こんなゲームが作れますセクション -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">こんなゲームが作れます！</h2>
+                <p class="text-xl text-gray-700">カリキュラムの中で実際に作れるゲームや作品例</p>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow text-center">
+                    <img src="images/minecraft_coding.png" alt="コマンドミニゲーム" class="mx-auto mb-4 rounded-lg shadow-md" style="max-width: 180px;">
+                    <h3 class="text-lg font-semibold mb-2">コマンドミニゲーム</h3>
+                    <p class="text-gray-700">コマンドブロックを使って、友達と遊べる「逃走中」や「宝探し」などのミニゲームを作成！</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow text-center">
+                    <img src="images/coding_with_minecraft.png" alt="自動農場" class="mx-auto mb-4 rounded-lg shadow-md" style="max-width: 180px;">
+                    <h3 class="text-lg font-semibold mb-2">自動農場・迷路脱出ロボット</h3>
+                    <p class="text-gray-700">ブロックプログラミングで、エージェントを使った自動農場や迷路脱出ロボットを開発！</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow text-center">
+                    <img src="images/minecraft_education.png" alt="Pythonアプリ" class="mx-auto mb-4 rounded-lg shadow-md" style="max-width: 180px;">
+                    <h3 class="text-lg font-semibold mb-2">Pythonで自動建築・Webアプリ</h3>
+                    <p class="text-gray-700">Pythonで自動建築ロボットや、簡単なWebアプリ・GUIアプリも作れるようになります。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- CTAセクション -->
+    <section class="minecraft-bg py-20 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="section-fade">
+                <div class="mb-6">
+                    <span class="inline-block bg-white/20 backdrop-blur-sm text-white px-6 py-2 rounded-full text-sm font-medium">
+                        🎁 新規オープン記念キャンペーン
+                    </span>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
+                    新規オープン記念！<br>
+                    <span class="text-yellow-400">特別価格でスタート</span>
+                </h2>
+                <p class="text-xl mb-12 text-white/90 leading-relaxed max-w-3xl mx-auto">
+                    総額17,500円相当の特典付き！早期申込でさらに特典が追加されます。<br>
+                    この機会をお見逃しなく、お早めにお申し込みください！
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <button class="group bg-gradient-to-r from-yellow-400 via-yellow-500 to-orange-500 text-gray-900 px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl hover:from-yellow-500 hover:to-orange-600 transition-all duration-300 transform hover:scale-105 hover:shadow-3xl relative overflow-hidden animate-pulse-glow">
+                        <span class="relative z-10 flex items-center justify-center">
+                            <i class="fas fa-gift mr-3 text-2xl group-hover:animate-bounce animate-wave"></i>
+                            新規オープン特典付き体験レッスン
+                        </span>
+                        <div class="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    </button>
+                    <a href="contact.html" class="group border-2 border-white/50 text-white px-12 py-5 rounded-2xl font-bold text-xl backdrop-blur-sm hover:bg-white/10 hover:border-white transition-all duration-300 transform hover:scale-105 block text-center animate-bounce-in">
+                        <i class="fas fa-phone mr-3 animate-wave"></i>
+                        お電話でのお問い合わせ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- フッター -->
+    <footer class="bg-gradient-to-br from-gray-900 to-gray-800 text-white py-16 relative overflow-hidden">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-30"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="relative animate-pulse-glow">
+                            <i class="fas fa-cube text-emerald-500 text-3xl mr-4 animate-rotate-3d"></i>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full animate-ping"></div>
+                            <div class="absolute -bottom-1 -left-1 w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                        </div>
+                        <span class="text-xl font-bold text-white animate-shimmer">マインクラフトプログラミング教室</span>
+                    </div>
+                    <p class="text-gray-300 leading-relaxed">
+                        子どもたちの創造力と論理的思考力を育む、革新的なプログラミング教育を提供します。<br>
+                        未来のIT人材を育てることを使命としています。
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">カリキュラム</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="phase1.html" class="hover:text-white transition-colors">フェーズ1: コマンドマスター</a></li>
+                        <li><a href="phase2.html" class="hover:text-white transition-colors">フェーズ2: ブロックプログラミング</a></li>
+                        <li><a href="phase3.html" class="hover:text-white transition-colors">フェーズ3: Python導入</a></li>
+                        <li><a href="phase4.html" class="hover:text-white transition-colors">フェーズ4: アプリ開発</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">サポート</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="faq.html" class="hover:text-white transition-colors">よくある質問</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition-colors">学習ガイド</a></li>
+                        <li><a href="parents.html" class="hover:text-white transition-colors">保護者向け情報</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">お問い合わせ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">お問い合わせ</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <p><i class="fas fa-phone mr-2"></i>086-230-3547</p>
+                        <p><i class="fas fa-envelope mr-2"></i>nayutaweb.marketing@gmail.com</p>
+                        <p><i class="fas fa-clock mr-2"></i>平日 10:00-17:30</p>
+                        <p><i class="fas fa-clock mr-2"></i>プログラミング授業に関しては柔軟な時間で対応可能です</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-12 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2025 Nayutaマインクラフトプログラミング教室. All rights reserved.</p>
+                <div class="mt-4 flex justify-center space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors">
+                        <i class="fab fa-facebook text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-emerald-400 transition-colors">
+                        <i class="fab fa-youtube text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // モバイルメニューの切り替え
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // スクロールインジケーター
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = scrollTop / docHeight;
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            scrollIndicator.style.transform = `scaleX(${scrollPercent})`;
+        });
+        
+        // スムーススクロール
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // セクションのフェードイン
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.section-fade').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // レッスンアイテムのクリックイベント
+        document.querySelectorAll('.lesson-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // ここに詳細表示のロジックを追加
+                console.log('レッスン詳細:', this.textContent);
+            });
+        });
+        
+        // コマンドボックスのクリックでコピー
+        document.querySelectorAll('.command-box').forEach(box => {
+            box.addEventListener('click', function() {
+                const command = this.textContent.split('\n').pop().trim();
+                navigator.clipboard.writeText(command).then(() => {
+                    // コピー成功の視覚的フィードバック
+                    const originalBg = this.style.backgroundColor;
+                    this.style.backgroundColor = '#22c55e';
+                    setTimeout(() => {
+                        this.style.backgroundColor = originalBg;
+                    }, 200);
+                });
+            });
+        });
+        
+        // プロダクトローンチ向けの動的要素
+        function initProductLaunchFeatures() {
+            // スクロールトリガーアニメーション
+            const scrollTriggers = document.querySelectorAll('.scroll-trigger');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            scrollTriggers.forEach(trigger => observer.observe(trigger));
+            
+            // 統計数字のカウントアップアニメーション
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const statObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = parseInt(target.textContent);
+                        let currentValue = 0;
+                        const increment = finalValue / 50;
+                        
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= finalValue) {
+                                currentValue = finalValue;
+                                clearInterval(timer);
+                            }
+                            target.textContent = Math.floor(currentValue) + (target.textContent.includes('+') ? '+' : '') + (target.textContent.includes('%') ? '%' : '');
+                        }, 50);
+                        
+                        statObserver.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            statNumbers.forEach(stat => statObserver.observe(stat));
+            
+            // 緊急性バナーの点滅効果
+            const urgencyBanner = document.querySelector('.urgency-banner');
+            if (urgencyBanner) {
+                setInterval(() => {
+                    urgencyBanner.style.opacity = urgencyBanner.style.opacity === '0.8' ? '1' : '0.8';
+                }, 2000);
+            }
+            
+            // CTAボタンのパルス効果
+            const ctaButtons = document.querySelectorAll('.cta-button');
+            ctaButtons.forEach(button => {
+                setInterval(() => {
+                    button.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        button.style.transform = 'scale(1)';
+                    }, 200);
+                }, 5000);
+            });
+        }
+        
+        // ページ読み込み時の初期化
+        window.addEventListener('load', function() {
+            initProductLaunchFeatures();
+            
+            // 新しいアニメーション機能
+            initAdvancedAnimations();
+        });
+        
+        // 高度なアニメーション機能
+        function initAdvancedAnimations() {
+            // フローティング要素の動的配置
+            const floatingElements = document.querySelectorAll('.floating-element');
+            floatingElements.forEach((element, index) => {
+                // ランダムな位置に配置
+                const randomX = Math.random() * 80 + 10; // 10% - 90%
+                const randomY = Math.random() * 80 + 10; // 10% - 90%
+                element.style.left = randomX + '%';
+                element.style.top = randomY + '%';
+                element.style.animationDelay = (index * 0.5) + 's';
+            });
+            
+            // パララックス効果
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.floating-element');
+                
+                parallaxElements.forEach((element, index) => {
+                    const speed = 0.5 + (index * 0.1);
+                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+            
+            // マウス追従効果
+            document.addEventListener('mousemove', function(e) {
+                const cursor = document.createElement('div');
+                cursor.className = 'cursor-trail';
+                cursor.style.cssText = `
+                    position: fixed;
+                    width: 10px;
+                    height: 10px;
+                    background: linear-gradient(45deg, #10b981, #3b82f6);
+                    border-radius: 50%;
+                    pointer-events: none;
+                    z-index: 9999;
+                    left: ${e.clientX - 5}px;
+                    top: ${e.clientY - 5}px;
+                    opacity: 0.7;
+                    transition: all 0.1s ease;
+                `;
+                document.body.appendChild(cursor);
+                
+                setTimeout(() => {
+                    cursor.remove();
+                }, 1000);
+            });
+            
+            // 要素のホバー時の3D効果
+            const cards = document.querySelectorAll('.phase-card, .group');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', function(e) {
+                    const rect = this.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                });
+            });
+        }
+    </script>
+</body>
+</html>
+

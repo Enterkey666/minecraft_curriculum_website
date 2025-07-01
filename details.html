@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カリキュラム詳細 | マインクラフトプログラミング教室</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: linear-gradient(120deg, #e0ffe7 0%, #f0f9ff 100%);
+        }
+        .details-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px 0 rgba(34,197,94,0.10);
+            padding: 2.5rem 2rem;
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+        h1 {
+            background: linear-gradient(90deg, #22c55e 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+        }
+        h2 {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #22c55e;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .phase-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+        .phase-table th, .phase-table td {
+            border: 1px solid #e5e7eb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+        .phase-table th {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+        .phase-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+        .goal {
+            background: #f0fdf4;
+            border-left: 4px solid #22c55e;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            color: #166534;
+        }
+        .story {
+            background: #f3f4f6;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 8px;
+            color: #2563eb;
+            font-size: 1.05rem;
+        }
+        .back-link {
+            display: block;
+            margin: 2rem auto 0 auto;
+            text-align: center;
+            color: #22c55e;
+            font-weight: bold;
+            text-decoration: underline;
+        }
+        .product-badge {
+            display: inline-block;
+            background: linear-gradient(90deg, #facc15 0%, #fbbf24 100%);
+            color: #92400e;
+            font-weight: bold;
+            border-radius: 8px;
+            padding: 0.3rem 1rem;
+            margin: 0.5rem 0 1rem 0;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="bg-white shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <a href="index.html" class="flex-shrink-0 flex items-center text-2xl font-bold text-green-600">マイクラ教室</a>
+                    <div class="hidden md:ml-8 md:flex md:space-x-8">
+                        <a href="details.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">カリキュラム詳細</a>
+                        <a href="guide.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">受講ガイド</a>
+                        <a href="phase1.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">フェーズ1</a>
+                        <a href="phase2.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">フェーズ2</a>
+                        <a href="phase3.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">フェーズ3</a>
+                        <a href="phase4.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">フェーズ4</a>
+                        <a href="commandlist.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">コマンドリスト</a>
+                        <a href="faq.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">よくある質問</a>
+                        <a href="parents.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">保護者向け</a>
+                        <a href="contact.html" class="inline-flex items-center px-1 pt-1 text-sm font-medium text-gray-700 hover:text-green-600">お問い合わせ</a>
+                    </div>
+                </div>
+                <div class="flex items-center md:hidden">
+                    <!-- モバイル用メニューは省略可 -->
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="details-card">
+        <h1>カリキュラム詳細</h1>
+        <p class="mb-6 text-lg text-gray-700">
+            ただの「学習」じゃない。<b>冒険ストーリー仕立て</b>で、子どもたちが夢中になる1年間！<br>
+            4つのフェーズを通して、<b>自分だけのワールドを創り上げる</b>体験型カリキュラムです。
+        </p>
+        
+        <h2>フェーズ1：コマンドマスター（1〜12週）</h2>
+        <div class="goal">目標：マインクラフトのコマンドを使いこなし、ゲーム世界を自在に操作できるようになる</div>
+        <div class="story">【ストーリー】<br>「伝説の冒険者」になるための第一歩。<br>コマンドの力で、世界を自由に操る魔法を手に入れよう！</div>
+        <span class="product-badge">成果物例：自動ドア・コマンドミニゲーム・秘密基地</span>
+        <table class="phase-table">
+            <tr><th>週</th><th>トピック</th><th>主な内容・教材</th><th>実践課題</th></tr>
+            <tr><td>1</td><td>マイクラの世界を知ろう</td><td>ワールド作成、移動・視点操作<br>教材：オリジナル冒険ノート</td><td>自分だけの拠点を作る</td></tr>
+            <tr><td>2</td><td>コマンドの魔法</td><td>/tp, /give, /setblock 体験<br>教材：コマンド早見表カード</td><td>宝探しゲームを作る</td></tr>
+            <tr><td>3-4</td><td>コマンドブロック入門</td><td>コマンドブロック設置・動作<br>教材：動画解説・実践ワーク</td><td>自動ドアを作る</td></tr>
+            <tr><td>5-6</td><td>応用コマンド</td><td>/fill, /effect, /summon で世界を変える<br>教材：チャレンジシート</td><td>ミニゲーム「逃走中」制作</td></tr>
+            <tr><td>7-8</td><td>自動化システム</td><td>レッドストーン×コマンド連携<br>教材：回路図テンプレート</td><td>秘密基地の自動化</td></tr>
+            <tr><td>9-12</td><td>オリジナルワールド制作</td><td>自由制作・発表会<br>教材：作品発表シート</td><td>自分だけのワールドを友達に紹介</td></tr>
+        </table>
+        
+        <h2>フェーズ2：ブロックプログラミング（13〜24週）</h2>
+        <div class="goal">目標：MakeCodeで論理的思考とアルゴリズムの基礎を身につける</div>
+        <div class="story">【ストーリー】<br>「エージェント」と一緒に、未知のダンジョンを攻略！<br>プログラミングでロボットを動かし、難関ミッションに挑戦しよう。</div>
+        <span class="product-badge">成果物例：自動農場・迷路脱出ロボット・オリジナルミニゲーム</span>
+        <table class="phase-table">
+            <tr><th>週</th><th>トピック</th><th>主な内容・教材</th><th>実践課題</th></tr>
+            <tr><td>13</td><td>MakeCodeの世界へ</td><td>エージェント操作・ブロックエディタ<br>教材：MakeCode公式ガイド</td><td>エージェントで宝箱を探す</td></tr>
+            <tr><td>14-15</td><td>変数と条件分岐</td><td>変数・if文・繰り返し<br>教材：オリジナルワークブック</td><td>自動農場を作る</td></tr>
+            <tr><td>16-17</td><td>関数とイベント</td><td>関数・イベント駆動型プログラミング<br>教材：実践チャレンジ集</td><td>迷路脱出ロボット制作</td></tr>
+            <tr><td>18-20</td><td>エージェントプログラミング</td><td>複雑な自動化・複数条件分岐<br>教材：動画解説・発展課題</td><td>複雑な迷路を攻略</td></tr>
+            <tr><td>21-22</td><td>オリジナルゲーム開発</td><td>ゲーム企画・制作<br>教材：ゲームデザインシート</td><td>オリジナルミニゲーム発表</td></tr>
+            <tr><td>23-24</td><td>発表・作品まとめ</td><td>自作プログラム発表・振り返り<br>教材：発表会サポート資料</td><td>みんなの前で作品プレゼン</td></tr>
+        </table>
+        
+        <h2>フェーズ3：Python導入（25〜36週）</h2>
+        <div class="goal">目標：Pythonの基礎文法とマインクラフト連携を学び、実用的な自動化プログラムを作成する</div>
+        <div class="story">【ストーリー】<br>「プログラマーの扉」を開け！<br>Pythonの力で、マイクラの世界をさらに進化させよう。</div>
+        <span class="product-badge">成果物例：自動建築ロボット・データ分析ツール・Pythonミニゲーム</span>
+        <table class="phase-table">
+            <tr><th>週</th><th>トピック</th><th>主な内容・教材</th><th>実践課題</th></tr>
+            <tr><td>25</td><td>Pythonの世界へ</td><td>print, 変数, 四則演算, 入力<br>教材：Pythonスタートブック</td><td>計算クイズアプリ作成</td></tr>
+            <tr><td>26-27</td><td>条件分岐と繰り返し</td><td>if, for, while, リスト<br>教材：練習問題集</td><td>九九表プログラム</td></tr>
+            <tr><td>28-29</td><td>関数とモジュール</td><td>関数定義・標準モジュール<br>教材：Python公式ドキュメント</td><td>自作関数で自動化</td></tr>
+            <tr><td>30-32</td><td>マインクラフト連携</td><td>mcpiライブラリでブロック設置・座標取得<br>教材：マイクラ×Python連携ガイド</td><td>自動建築ロボット制作</td></tr>
+            <tr><td>33-34</td><td>データ分析</td><td>データ収集・可視化<br>教材：グラフ作成ツール</td><td>ワールド内のデータをグラフ化</td></tr>
+            <tr><td>35-36</td><td>作品発表</td><td>成果発表・ポートフォリオ作成<br>教材：発表会サポート資料</td><td>Python作品をみんなに紹介</td></tr>
+        </table>
+        
+        <h2>フェーズ4：アプリ開発（37〜48週）</h2>
+        <div class="goal">目標：PythonでWebアプリやGUIアプリを開発し、オリジナル作品を完成させる</div>
+        <div class="story">【ストーリー】<br>「未来のクリエイター」へ！<br>自分のアイデアをアプリで形にし、世界に発信しよう。</div>
+        <span class="product-badge">成果物例：Webダッシュボード・GUIアプリ・オリジナルゲーム</span>
+        <table class="phase-table">
+            <tr><th>週</th><th>トピック</th><th>主な内容・教材</th><th>実践課題</th></tr>
+            <tr><td>37-38</td><td>Webアプリの基礎</td><td>FlaskでWebアプリ作成<br>教材：Flask入門ガイド</td><td>簡単な掲示板アプリ</td></tr>
+            <tr><td>39-40</td><td>HTML/CSS入門</td><td>Webページの仕組み・デザイン<br>教材：HTML/CSSワークブック</td><td>自己紹介ページ制作</td></tr>
+            <tr><td>41-42</td><td>GUIアプリ開発</td><td>Tkinterでデスクトップアプリ<br>教材：Tkinter実践ガイド</td><td>タイマーアプリ制作</td></tr>
+            <tr><td>43-45</td><td>オリジナルアプリ制作</td><td>企画・設計・開発<br>教材：アプリ開発シート</td><td>自分だけのアプリを完成</td></tr>
+            <tr><td>46-48</td><td>作品発表・まとめ</td><td>発表会・ポートフォリオ作成<br>教材：発表会サポート資料</td><td>みんなの前でアプリ発表</td></tr>
+        </table>
+        
+        <a href="index.html" class="back-link">← トップページに戻る</a>
+    </div>
+    <footer class="bg-white border-t mt-16">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-wrap justify-center space-x-6 mb-4">
+                <a href="index.html" class="text-gray-500 hover:text-green-600">トップ</a>
+                <a href="details.html" class="text-gray-500 hover:text-green-600">カリキュラム詳細</a>
+                <a href="guide.html" class="text-gray-500 hover:text-green-600">受講ガイド</a>
+                <a href="phase1.html" class="text-gray-500 hover:text-green-600">フェーズ1</a>
+                <a href="phase2.html" class="text-gray-500 hover:text-green-600">フェーズ2</a>
+                <a href="phase3.html" class="text-gray-500 hover:text-green-600">フェーズ3</a>
+                <a href="phase4.html" class="text-gray-500 hover:text-green-600">フェーズ4</a>
+                <a href="commandlist.html" class="text-gray-500 hover:text-green-600">コマンドリスト</a>
+                <a href="faq.html" class="text-gray-500 hover:text-green-600">よくある質問</a>
+                <a href="parents.html" class="text-gray-500 hover:text-green-600">保護者向け</a>
+                <a href="contact.html" class="text-gray-500 hover:text-green-600">お問い合わせ</a>
+            </div>
+            <p class="text-center text-gray-400 text-sm">&copy; 2024 マインクラフトプログラミング教室</p>
+        </div>
+    </footer>
+</body>
+</html> 
